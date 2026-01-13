@@ -373,6 +373,11 @@ func (g *schemaGenerator) generateDeclaredType(t *schemas.Type, scope nameScope)
 		}
 	}
 
+	// Generate constructor if enabled and this is a struct type
+	if _, ok := theType.(*codegen.StructType); ok {
+		g.generateConstructor(&decl)
+	}
+
 	return &codegen.NamedType{Decl: &decl}, nil
 }
 
@@ -510,6 +515,37 @@ func (g *schemaGenerator) generateUnmarshaler(decl *codegen.TypeDecl, validators
 			Name: decl.GetName() + "_validator",
 		})
 	}
+}
+
+func (g *schemaGenerator) generateConstructor(decl *codegen.TypeDecl) {
+	if !g.config.DefaultConstructors {
+		return
+	}
+
+	if g.config.OnlyModels {
+		return
+	}
+
+	// Check if we've already generated a constructor for this type
+	if hasConstructor, ok := g.output.constructorsByTypeDecl[decl]; ok || hasConstructor {
+		return
+	}
+
+	cg := &constructorGenerator{
+		decl:   decl,
+		output: g.output,
+	}
+
+	if !cg.hasDefaults() {
+		return
+	}
+
+	g.output.constructorsByTypeDecl[decl] = true
+
+	g.output.file.Package.AddDecl(&codegen.Method{
+		Impl: cg.generate(),
+		Name: "New" + decl.GetName(),
+	})
 }
 
 func (g *schemaGenerator) generateType(t *schemas.Type, scope nameScope) (codegen.Type, error) {

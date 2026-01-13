@@ -16,6 +16,7 @@ type output struct {
 	declsByName             map[string]*codegen.TypeDecl
 	declsBySchema           map[*schemas.Type]*codegen.TypeDecl
 	unmarshallersByTypeDecl map[*codegen.TypeDecl]bool
+	constructorsByTypeDecl  map[*codegen.TypeDecl]bool
 	warner                  func(string)
 }
 

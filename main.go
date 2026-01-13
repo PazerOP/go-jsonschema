@@ -35,6 +35,7 @@ var (
 	minimalNames              bool
 	disableReadOnlyValidation bool
 	disableCustomTypesForMaps bool
+	defaultConstructors       bool
 
 	errFlagFormat = errors.New("flag must be in the format URI=PACKAGE")
 
@@ -83,6 +84,7 @@ var (
 				MinimalNames:              minimalNames,
 				DisableReadOnlyValidation: disableReadOnlyValidation,
 				DisableCustomTypesForMaps: disableCustomTypesForMaps,
+				DefaultConstructors:       defaultConstructors,
 			}
 			for _, id := range allKeys(schemaPackageMap, schemaOutputMap, schemaRootTypeMap) {
 				mapping := generator.SchemaMapping{SchemaID: id}
@@ -189,6 +191,8 @@ also look for foo.json if --resolve-extension json is provided.`)
 		"Uses the shortest possible names")
 	rootCmd.PersistentFlags().BoolVar(&disableCustomTypesForMaps, "disable-custom-types-for-maps", false,
 		"Do not generate custom types when generating maps")
+	rootCmd.PersistentFlags().BoolVar(&defaultConstructors, "default-constructors", false,
+		"Generate New* constructor functions that initialize structs with default values from the schema")
 
 	abortWithErr(rootCmd.Execute())
 }
