@@ -252,6 +252,15 @@ func TestRefWithOverridesPath(t *testing.T) {
 	testExampleFile(t, cfg, "./data/refWithOverridesPath/schema.json")
 }
 
+func TestDefaultConstructors(t *testing.T) {
+	t.Parallel()
+
+	cfg := basicConfig
+	cfg.DefaultConstructors = true
+
+	testExamples(t, cfg, "./data/defaultConstructors")
+}
+
 func testExamples(t *testing.T, cfg generator.Config, dataDir string) {
 	t.Helper()
 

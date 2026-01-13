@@ -40,6 +40,9 @@ type Config struct {
 	// DisableCustomTypesForMaps configures the generator to avoid creating a custom type for maps,
 	// and to use the map type directly.
 	DisableCustomTypesForMaps bool
+	// DefaultConstructors configures the generator to generate New* constructor functions
+	// that initialize structs with their default values from the JSON schema.
+	DefaultConstructors bool
 }
 
 type SchemaMapping struct {

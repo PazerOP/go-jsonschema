@@ -1,0 +1,46 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "default": "default_name"
+        },
+        "count": {
+            "type": "integer",
+            "default": 42
+        },
+        "enabled": {
+            "type": "boolean",
+            "default": true
+        },
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "default": ["tag1", "tag2"]
+        },
+        "config": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string",
+                    "default": "#ffffff"
+                },
+                "size": {
+                    "type": "integer",
+                    "default": 10
+                }
+            },
+            "default": {
+                "color": "#000000",
+                "size": 5
+            }
+        },
+        "optional": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false
+}
